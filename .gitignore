@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.venv/
+.env
+data/api_keys.json
+.pytest_cache/
+start-pulse.ps1
