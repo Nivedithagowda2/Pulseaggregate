@@ -456,11 +456,3 @@ The aggregation layer expects `orders(order_id, tenant_id, product_id, quantity,
 - keep the `(updated_at, order_id)` and `(tenant_id, created_at)` indexes from `sql/indexes.sql`;
 - keep the status rules in `pulse/rules.py` in sync with the business definition.
 
-## 20. Known limitations
-
-- Orders are bucketed by `created_at`. If `created_at`, `tenant_id` or `product_id` of an existing order is edited, the old bucket is not refreshed. Hard deletes are not detected either. Run `scripts.rebuild` after such changes.
-- All times are UTC, and a "day" is a UTC day.
-- The tenant filter is enforced in the API layer, not by PostgreSQL row-level security.
-- The "orders processed" counter in PulseGuard can include safe re-reads from the overlap window, so it is not a count of unique changes.
-- Bonus B-4 (adding a metric from a config file) is not implemented.
-- Performance numbers above are from a 1M-order laptop run. The 10M run and the remaining benchmarks are pending.
