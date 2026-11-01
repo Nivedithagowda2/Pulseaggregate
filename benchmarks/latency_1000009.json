@@ -1,0 +1,245 @@
+{
+  "total_orders": 1000009,
+  "results": {
+    "largest:count": {
+      "tenant_id": 1,
+      "tenant_orders": 397989,
+      "api": {
+        "p50": 5.16,
+        "p95": 6.82,
+        "max": 7.19,
+        "mean": 5.31
+      },
+      "direct": {
+        "p50": 18.66,
+        "p95": 34.72,
+        "max": 34.72,
+        "mean": 25.49
+      }
+    },
+    "largest:trends_hour": {
+      "tenant_id": 1,
+      "tenant_orders": 397989,
+      "api": {
+        "p50": 4.59,
+        "p95": 6.46,
+        "max": 8.14,
+        "mean": 4.9
+      },
+      "direct": {
+        "p50": 9.4,
+        "p95": 11.1,
+        "max": 11.1,
+        "mean": 9.23
+      }
+    },
+    "largest:trends_day": {
+      "tenant_id": 1,
+      "tenant_orders": 397989,
+      "api": {
+        "p50": 5.74,
+        "p95": 9.77,
+        "max": 11.14,
+        "mean": 6.23
+      },
+      "direct": {
+        "p50": 111.79,
+        "p95": 137.04,
+        "max": 137.04,
+        "mean": 118.95
+      }
+    },
+    "largest:top": {
+      "tenant_id": 1,
+      "tenant_orders": 397989,
+      "api": {
+        "p50": 5.8,
+        "p95": 8.24,
+        "max": 10.25,
+        "mean": 6.03
+      },
+      "direct": {
+        "p50": 17.96,
+        "p95": 21.35,
+        "max": 21.35,
+        "mean": 18.96
+      }
+    },
+    "largest:breakdown": {
+      "tenant_id": 1,
+      "tenant_orders": 397989,
+      "api": {
+        "p50": 4.87,
+        "p95": 5.79,
+        "max": 6.01,
+        "mean": 5.01
+      },
+      "direct": {
+        "p50": 68.07,
+        "p95": 97.31,
+        "max": 97.31,
+        "mean": 75.27
+      }
+    },
+    "median:count": {
+      "tenant_id": 6,
+      "tenant_orders": 57277,
+      "api": {
+        "p50": 4.02,
+        "p95": 5.43,
+        "max": 8.06,
+        "mean": 4.37
+      },
+      "direct": {
+        "p50": 4.0,
+        "p95": 4.88,
+        "max": 4.88,
+        "mean": 4.17
+      }
+    },
+    "median:trends_hour": {
+      "tenant_id": 6,
+      "tenant_orders": 57277,
+      "api": {
+        "p50": 5.43,
+        "p95": 7.92,
+        "max": 9.16,
+        "mean": 5.72
+      },
+      "direct": {
+        "p50": 1.68,
+        "p95": 2.15,
+        "max": 2.15,
+        "mean": 1.79
+      }
+    },
+    "median:trends_day": {
+      "tenant_id": 6,
+      "tenant_orders": 57277,
+      "api": {
+        "p50": 6.09,
+        "p95": 8.3,
+        "max": 9.84,
+        "mean": 6.35
+      },
+      "direct": {
+        "p50": 44.07,
+        "p95": 50.96,
+        "max": 50.96,
+        "mean": 39.61
+      }
+    },
+    "median:top": {
+      "tenant_id": 6,
+      "tenant_orders": 57277,
+      "api": {
+        "p50": 5.05,
+        "p95": 6.94,
+        "max": 8.41,
+        "mean": 5.48
+      },
+      "direct": {
+        "p50": 5.31,
+        "p95": 5.51,
+        "max": 5.51,
+        "mean": 5.4
+      }
+    },
+    "median:breakdown": {
+      "tenant_id": 6,
+      "tenant_orders": 57277,
+      "api": {
+        "p50": 4.94,
+        "p95": 5.74,
+        "max": 6.43,
+        "mean": 4.9
+      },
+      "direct": {
+        "p50": 18.01,
+        "p95": 32.76,
+        "max": 32.76,
+        "mean": 23.54
+      }
+    },
+    "smallest:count": {
+      "tenant_id": 10,
+      "tenant_orders": 41414,
+      "api": {
+        "p50": 4.13,
+        "p95": 7.6,
+        "max": 9.58,
+        "mean": 4.69
+      },
+      "direct": {
+        "p50": 3.69,
+        "p95": 4.02,
+        "max": 4.02,
+        "mean": 3.71
+      }
+    },
+    "smallest:trends_hour": {
+      "tenant_id": 10,
+      "tenant_orders": 41414,
+      "api": {
+        "p50": 4.44,
+        "p95": 6.35,
+        "max": 7.24,
+        "mean": 4.82
+      },
+      "direct": {
+        "p50": 1.15,
+        "p95": 1.73,
+        "max": 1.73,
+        "mean": 1.36
+      }
+    },
+    "smallest:trends_day": {
+      "tenant_id": 10,
+      "tenant_orders": 41414,
+      "api": {
+        "p50": 5.77,
+        "p95": 12.46,
+        "max": 12.73,
+        "mean": 8.08
+      },
+      "direct": {
+        "p50": 33.96,
+        "p95": 35.64,
+        "max": 35.64,
+        "mean": 29.47
+      }
+    },
+    "smallest:top": {
+      "tenant_id": 10,
+      "tenant_orders": 41414,
+      "api": {
+        "p50": 5.35,
+        "p95": 6.78,
+        "max": 7.72,
+        "mean": 5.16
+      },
+      "direct": {
+        "p50": 3.6,
+        "p95": 4.78,
+        "max": 4.78,
+        "mean": 3.92
+      }
+    },
+    "smallest:breakdown": {
+      "tenant_id": 10,
+      "tenant_orders": 41414,
+      "api": {
+        "p50": 5.12,
+        "p95": 6.22,
+        "max": 8.54,
+        "mean": 5.24
+      },
+      "direct": {
+        "p50": 11.46,
+        "p95": 25.84,
+        "max": 25.84,
+        "mean": 18.05
+      }
+    }
+  }
+}

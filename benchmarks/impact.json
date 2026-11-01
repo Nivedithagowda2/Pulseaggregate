@@ -1,0 +1,24 @@
+{
+  "baseline": {
+    "p50": 0.26,
+    "p95": 0.59,
+    "max": 7.09,
+    "mean": 0.3
+  },
+  "phases": {
+    "with_api_load": {
+      "mean_slowdown_percent": 30.0,
+      "p50": 0.36,
+      "p95": 0.68,
+      "max": 8.1,
+      "mean": 0.39
+    },
+    "with_direct_load": {
+      "mean_slowdown_percent": 90.0,
+      "p50": 0.49,
+      "p95": 1.23,
+      "max": 14.16,
+      "mean": 0.57
+    }
+  }
+}

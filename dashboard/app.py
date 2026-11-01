@@ -2,18 +2,25 @@
 Streamlit UI: a simple tenant dashboard + the PulseGuard monitoring page.
 
   streamlit run dashboard/app.py
-Environment: API_URL (default http://localhost:8000), KEYS_FILE, ADMIN_KEY.
+Environment: API_URL (default http://127.0.0.1:8000), KEYS_FILE, ADMIN_KEY.
+
+Latency notes:
+  * One reused HTTP connection pool (no new connection per request).
+  * The four dashboard queries run in PARALLEL, so the page waits for the slowest
+    single call instead of the sum of all four.
+  * Default API_URL uses 127.0.0.1, because "localhost" can add a delay on Windows.
 """
 import json
 import os
 import time
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 import httpx
 import pandas as pd
 import streamlit as st
 
-API_URL = os.getenv("API_URL", "http://localhost:8000")
+API_URL = os.getenv("API_URL", "http://127.0.0.1:8000")
 KEYS_FILE = os.getenv("KEYS_FILE", "data/api_keys.json")
 ADMIN_KEY = os.getenv("ADMIN_KEY", "change-me-admin-key")
 
@@ -28,10 +35,19 @@ def load_keys():
     return {int(k): v["api_key"] for k, v in json.loads(path.read_text())["tenants"].items()}
 
 
+@st.cache_resource
+def get_http():
+    """One reused connection pool shared by every rerun and thread."""
+    return httpx.Client(base_url=API_URL, timeout=120)
+
+
+HTTP = get_http()
+
+
 def call(method, path, key=None, admin=False, params=None):
     headers = {"X-Admin-Key": ADMIN_KEY} if admin else {"X-API-Key": key or ""}
     t0 = time.perf_counter()
-    r = httpx.request(method, f"{API_URL}{path}", headers=headers, params=params, timeout=120)
+    r = HTTP.request(method, path, headers=headers, params=params)
     return r, (time.perf_counter() - t0) * 1000
 
 
@@ -51,10 +67,18 @@ with tab_dash:
     auto = st.checkbox("Auto-refresh every 5 s")
     key = keys[tenant_id]
 
-    r_count, ms_count = call("GET", f"/tenants/{tenant_id}/orders/count", key)
-    r_trend, ms_trend = call("GET", f"/tenants/{tenant_id}/orders/trends", key, params={"granularity": gran})
-    r_top, ms_top = call("GET", f"/tenants/{tenant_id}/products/top", key)
-    r_brk, ms_brk = call("GET", f"/tenants/{tenant_id}/orders/breakdown", key)
+    # Fire all four dashboard queries at the same time.
+    t_all = time.perf_counter()
+    with ThreadPoolExecutor(max_workers=4) as pool:
+        f_count = pool.submit(call, "GET", f"/tenants/{tenant_id}/orders/count", key)
+        f_trend = pool.submit(call, "GET", f"/tenants/{tenant_id}/orders/trends", key, False, {"granularity": gran})
+        f_top = pool.submit(call, "GET", f"/tenants/{tenant_id}/products/top", key)
+        f_brk = pool.submit(call, "GET", f"/tenants/{tenant_id}/orders/breakdown", key)
+    r_count, ms_count = f_count.result()
+    r_trend, ms_trend = f_trend.result()
+    r_top, ms_top = f_top.result()
+    r_brk, ms_brk = f_brk.result()
+    total_ms = (time.perf_counter() - t_all) * 1000
 
     if not all(r.status_code == 200 for r in (r_count, r_trend, r_top, r_brk)):
         st.error(f"API error: {[r.status_code for r in (r_count, r_trend, r_top, r_brk)]}")
@@ -83,8 +107,9 @@ with tab_dash:
     st.subheader("Top 10 products by sales (last 7 days)")
     st.dataframe(pd.DataFrame(top["products"]), hide_index=True)
 
-    st.caption(f"API response times: count {ms_count:.0f} ms | trends {ms_trend:.0f} ms | "
-               f"top-10 {ms_top:.0f} ms | breakdown {ms_brk:.0f} ms (includes this page's HTTP round trip)")
+    st.caption(f"All four dashboard queries loaded in {total_ms:.0f} ms (parallel). "
+               f"Individual calls: count {ms_count:.0f} | trends {ms_trend:.0f} | "
+               f"top-10 {ms_top:.0f} | breakdown {ms_brk:.0f} ms")
     if auto:
         time.sleep(5)
         st.rerun()
